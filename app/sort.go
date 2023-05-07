@@ -11,7 +11,7 @@ func Bubble[V Element](data []V, asc bool) []V {
 	var i, j int
 	var swap bool
 	for i = 0; i < len(data)-1; i++ {
-		for j = 0; j < len(data)-1; j++ {
+		for j = 0; j < len(data)-1-i; j++ {
 			switch asc {
 			case true:
 				swap = data[j] > data[j+1]
@@ -28,9 +28,8 @@ func Bubble[V Element](data []V, asc bool) []V {
 }
 
 func Insertion[V Element](data []V, asc bool) []V {
-	var n = len(data)
 	var swap bool
-	for i := 1; i < n; i++ {
+	for i := 1; i < len(data); i++ {
 		j := i
 		for j > 0 {
 			switch asc {
