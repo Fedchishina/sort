@@ -3,44 +3,45 @@ Sort data
 
 Library for sorting data
 
-You can sort arrays with these types of elements
+### BubbleSort and InsertionSort
+You can sort any data using these algorithms.
+You need to implement `sort.Interface` in your data structure
 
+In this library for help and as example we added `type OrderedSlice` and `type ByAge []Person` with implementation `sort.Interface`
+
+Use function Bubble or Insertion from sort package:
+- first param is any structure where was implemented `sort.Interface`
+- second param should be `type Direction` (`sort.Asc` or `sort.Desc`)
+
+#### Example with ordered slice: 
 ```
-int | int32 | int64 | float32 | float64 | string
+data := sort.OrderedSlice[int]([]int{4, 5, 8, 7})
+sort.Bubble(data, sort.Asc)
+sort.Insertion(data, sort.Asc)
 ```
 
-## BubbleSort 
-use function Bubble from sort package
-- first param is array with data
-- second param is bool: true - ascending sort, false - descending sort
-
-Example: 
+#### Example with slice of structures:
 ```
-var data = []int{74, 59, 238, -784, 9845, 959, 905, 0, 0, 42, 7586, -5467984, 7586}
-bubbleSorted := sort.Bubble(data, true)
-fmt.Println("Bubble sort: ", bubbleSorted)
+people := []sort.Person{
+    {"Bob", 31},
+    {"John", 42},
+    {"Michael", 17},
+    {"Jenny", 26},
+}
+
+sort.Bubble(sort.ByAge(people), sort.Asc)
+sort.Insertion(sort.ByAge(people), sort.Asc)
 ```
 
-## InsertionSort
-use function Insertion from sort package
-- first param is array with data
-- second param is bool: true - ascending sort, false - descending sort
+### MergeSort
+You can sort OrderedSlice data using this algorithm.
+Use function Merge for sort package:
+- first param is array (`type OrderedSlice`).
+- second param should be `type Direction` (`sort.Asc` or `sort.Desc`)
 
 Example:
 ```
-var data = []int{74, 59, 238, -784, 9845, 959, 905, 0, 0, 42, 7586, -5467984, 7586}
-insertionSorted := sort.Insertion(data, false)
-fmt.Println("Insertion sort: ", insertionSorted)
-```
-
-## MergeSort
-use function Merge from sort package
-- first param is array with data
-- second param is bool: true - ascending sort, false - descending sort
-
-Example:
-```
-var data = []int{74, 59, 238, -784, 9845, 959, 905, 0, 0, 42, 7586, -5467984, 7586}
-mergeSorted := sort.Merge(data, false)
-fmt.Println("Merge sort: ", mergeSorted)
+data := sort.OrderedSlice[int]([]int{4, 5, 8, 7})
+result := sort.Merge(data, sort.Asc)
+fmt.Println("Merge sort: ", result)
 ```
