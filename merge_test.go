@@ -76,3 +76,16 @@ func TestMerge(t *testing.T) {
 		})
 	}
 }
+
+func benchmarkMerge[V Element](data OrderedSlice[V], direction Direction, b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		Merge(data, direction)
+	}
+}
+
+func BenchmarkMergeInt(b *testing.B) {
+	benchmarkMerge([]int{4, 5, 8, 7}, Asc, b)
+}
+func BenchmarkMergeString(b *testing.B) {
+	benchmarkMerge([]string{"c", "a", "b"}, Asc, b)
+}

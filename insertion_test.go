@@ -92,3 +92,27 @@ func TestInsertion(t *testing.T) {
 		})
 	}
 }
+
+func benchmarkInsertion(data sort.Interface, direction Direction, b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		Insertion(data, direction)
+	}
+}
+
+func BenchmarkInsertionInt(b *testing.B) {
+	benchmarkInsertion(OrderedSlice[int]([]int{4, 5, 8, 7}), Asc, b)
+}
+func BenchmarkInsertionString(b *testing.B) {
+	benchmarkInsertion(OrderedSlice[string]([]string{"c", "a", "b"}), Asc, b)
+}
+func BenchmarkInsertionStructure(b *testing.B) {
+	benchmarkInsertion(
+		ByAge([]Person{
+			{"Bob", 31},
+			{"John", 42},
+			{"Michael", 17},
+			{"Jenny", 26},
+		}),
+		Asc,
+		b)
+}

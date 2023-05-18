@@ -45,3 +45,16 @@ data := sort.OrderedSlice[int]([]int{4, 5, 8, 7})
 result := sort.Merge(data, sort.Asc)
 fmt.Println("Merge sort: ", result)
 ```
+
+## Performance
+```
+$ GOMAXPROCS=1 go test -bench=. -benchmem -benchtime=10s
+BenchmarkBubbleInt              285158943               41.68 ns/op            0 B/op          0 allocs/op
+BenchmarkBubbleString           377145843               31.86 ns/op            0 B/op          0 allocs/op
+BenchmarkBubbleStructure        295597588               41.47 ns/op            0 B/op          0 allocs/op
+BenchmarkInsertionInt           394700175               31.07 ns/op            0 B/op          0 allocs/op
+BenchmarkInsertionString        459822885               26.30 ns/op            0 B/op          0 allocs/op
+BenchmarkInsertionStructure     400968597               30.22 ns/op            0 B/op          0 allocs/op
+BenchmarkMergeInt               58191954               204.5 ns/op           104 B/op          7 allocs/op
+BenchmarkMergeString            42165343               276.3 ns/op           160 B/op          5 allocs/op
+```
