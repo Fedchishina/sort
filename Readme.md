@@ -1,3 +1,5 @@
+<a href="https://pkg.go.dev/github.com/fedchishina/sort"><img src="https://pkg.go.dev/badge/github.com/fedchishina/sort.svg" alt="Go Reference"></a>
+
 Sort data
 =======================
 
