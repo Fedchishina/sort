@@ -93,24 +93,29 @@ func TestBubble(t *testing.T) {
 	}
 }
 
-func benchmarkBubble(data sort.Interface, direction Direction, b *testing.B) {
-	for n := 0; n < b.N; n++ {
-		Bubble(data, direction)
+func BenchmarkBubble(b *testing.B) {
+	benchmarks := []struct {
+		name      string
+		data      sort.Interface
+		direction Direction
+	}{
+		{"int", OrderedSlice[int]([]int{4, 5, 8, 7}), Asc},
+		{"string", OrderedSlice[string]([]string{"c", "a", "b"}), Asc},
+		{"structure",
+			ByAge([]Person{
+				{"Bob", 31},
+				{"John", 42},
+				{"Michael", 17},
+				{"Jenny", 26},
+			}),
+			Asc,
+		},
 	}
-}
-
-func BenchmarkBubbleInt(b *testing.B) { benchmarkBubble(OrderedSlice[int]([]int{4, 5, 8, 7}), Asc, b) }
-func BenchmarkBubbleString(b *testing.B) {
-	benchmarkBubble(OrderedSlice[string]([]string{"c", "a", "b"}), Asc, b)
-}
-func BenchmarkBubbleStructure(b *testing.B) {
-	benchmarkBubble(
-		ByAge([]Person{
-			{"Bob", 31},
-			{"John", 42},
-			{"Michael", 17},
-			{"Jenny", 26},
-		}),
-		Asc,
-		b)
+	for _, bm := range benchmarks {
+		b.Run(bm.name, func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				Bubble(bm.data, bm.direction)
+			}
+		})
+	}
 }
