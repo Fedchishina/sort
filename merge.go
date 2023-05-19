@@ -1,5 +1,8 @@
 package sort
 
+// Merge sorts data using merge sort algorithm
+//   - first param is array (`type OrderedSlice`).
+//   - second param should be `type Direction` (`sort.Asc` or `sort.Desc`)
 func Merge[V Element](data OrderedSlice[V], direction Direction) OrderedSlice[V] {
 	if len(data) < 2 {
 		return data
