@@ -7,7 +7,7 @@ Library for sorting data
 
 ### BubbleSort and InsertionSort
 You can sort any data using these algorithms.
-You need to implement `sort.Interface` in your data structure
+You need to implement `sort.Interface` in your data structure.
 
 In this library for help and as example we added `type OrderedSlice` and `type ByAge []Person` with implementation `sort.Interface`
 
