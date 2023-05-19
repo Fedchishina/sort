@@ -1,4 +1,4 @@
-module github.com/Fedchishina/sort
+module github.com/fedchishina/sort
 
 go 1.20
 
