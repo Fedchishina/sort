@@ -3,39 +3,41 @@ package sort
 import (
 	"reflect"
 	"testing"
+
+	"golang.org/x/exp/constraints"
 )
 
 func TestMerge(t *testing.T) {
-	type args[V Element] struct {
-		data      OrderedSlice[V]
-		direction Direction
+	type args[V constraints.Ordered] struct {
+		data      Slice[V]
+		direction direction
 	}
-	type testCase[V Element] struct {
+	type testCase[V constraints.Ordered] struct {
 		name string
 		args args[V]
-		want OrderedSlice[V]
+		want Slice[V]
 	}
 
 	intTests := []testCase[int]{
 		{
 			name: "empty",
 			args: args[int]{data: []int{}, direction: Asc},
-			want: OrderedSlice[int]([]int{}),
+			want: Slice[int]([]int{}),
 		},
 		{
 			name: "one element",
 			args: args[int]{data: []int{1}, direction: Asc},
-			want: OrderedSlice[int]([]int{1}),
+			want: Slice[int]([]int{1}),
 		},
 		{
 			name: "ascending",
 			args: args[int]{data: []int{74, 59, 238}, direction: Asc},
-			want: OrderedSlice[int]([]int{59, 74, 238}),
+			want: Slice[int]([]int{59, 74, 238}),
 		},
 		{
 			name: "descending",
 			args: args[int]{data: []int{74, 59, 238}, direction: Desc},
-			want: OrderedSlice[int]([]int{238, 74, 59}),
+			want: Slice[int]([]int{238, 74, 59}),
 		},
 	}
 	for _, tt := range intTests {
@@ -50,22 +52,22 @@ func TestMerge(t *testing.T) {
 		{
 			name: "empty",
 			args: args[string]{data: []string{}, direction: Asc},
-			want: OrderedSlice[string]([]string{}),
+			want: Slice[string]([]string{}),
 		},
 		{
 			name: "one element",
 			args: args[string]{data: []string{"a"}, direction: Asc},
-			want: OrderedSlice[string]([]string{"a"}),
+			want: Slice[string]([]string{"a"}),
 		},
 		{
 			name: "ascending",
 			args: args[string]{data: []string{"c", "a", "b"}, direction: Asc},
-			want: OrderedSlice[string]([]string{"a", "b", "c"}),
+			want: Slice[string]([]string{"a", "b", "c"}),
 		},
 		{
 			name: "descending",
 			args: args[string]{data: []string{"c", "a", "b"}, direction: Desc},
-			want: OrderedSlice[string]([]string{"c", "b", "a"}),
+			want: Slice[string]([]string{"c", "b", "a"}),
 		},
 	}
 	for _, tt := range stringTests {
@@ -77,7 +79,7 @@ func TestMerge(t *testing.T) {
 	}
 }
 
-func benchmarkMerge[V Element](data OrderedSlice[V], direction Direction, b *testing.B) {
+func benchmarkMerge[V constraints.Ordered](data Slice[V], direction direction, b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		Merge(data, direction)
 	}

@@ -1,9 +1,11 @@
 package sort
 
+import "golang.org/x/exp/constraints"
+
 // Merge sorts data using merge sort algorithm
-//   - first param is array (`type OrderedSlice`).
-//   - second param should be `type Direction` (`sort.Asc` or `sort.Desc`)
-func Merge[V Element](data OrderedSlice[V], direction Direction) OrderedSlice[V] {
+//   - first param is array (`type Slice`).
+//   - second param should be `type direction` (`sort.Asc` or `sort.Desc`)
+func Merge[V constraints.Ordered](data Slice[V], direction direction) Slice[V] {
 	if len(data) < 2 {
 		return data
 	}
@@ -11,28 +13,33 @@ func Merge[V Element](data OrderedSlice[V], direction Direction) OrderedSlice[V]
 	R := Merge(data[len(data)/2:], direction)
 
 	var (
-		i, j  int
-		final OrderedSlice[V]
+		i, j int
 	)
 
+	final := make(Slice[V], len(data))
+	fIndex := 0
 	lenL := len(L)
 	lenR := len(R)
 	for i < lenL && j < lenR {
 		if (direction == Asc && L[i] < R[j]) || (direction == Desc && L[i] > R[j]) {
-			final = append(final, L[i])
+			final[fIndex] = L[i]
 			i++
 		} else {
-			final = append(final, R[j])
+			final[fIndex] = R[j]
 			j++
 		}
+
+		fIndex++
 	}
 
 	for ; i < lenL; i++ {
-		final = append(final, L[i])
+		final[fIndex] = L[i]
+		fIndex++
 	}
 
 	for ; j < lenR; j++ {
-		final = append(final, R[j])
+		final[fIndex] = R[j]
+		fIndex++
 	}
 
 	return final

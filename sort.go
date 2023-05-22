@@ -5,32 +5,25 @@ import (
 	"golang.org/x/exp/constraints"
 )
 
-// Direction is a type which uses to set the sort direction.
-type Direction string
+// direction is a type which uses to set the sort direction.
+type direction string
 
 const (
 	// Desc specifies the sort direction to be descending.
-	Desc Direction = "desc"
+	Desc direction = "desc"
 	// Asc specifies the sort direction to be ascending.
-	Asc Direction = "asc"
+	Asc direction = "asc"
 )
 
-// Element is a type elements of Ordered slice (int, string, float64, etc)
-type Element interface {
-	constraints.Ordered
+// Element is an interface which needs to implement for slice sorting
+type Element[V constraints.Ordered] interface {
+	// Element returns value of element.
+	// Type of this element should be constraints.Ordered (int, string, float64 etc)
+	// This function will be used for comparing elements
+	Element() V
 }
 
-// OrderedSlice is a slice for sorting ordered elements
-type OrderedSlice[V Element] []V
-
-// Len returns a len of Ordered slice
-func (x OrderedSlice[V]) Len() int { return len(x) }
-
-// Less compares two elements. If i-element less j-element function returns true.
-func (x OrderedSlice[V]) Less(i, j int) bool { return x[i] < x[j] }
-
-// Swap swaps i and j elements
-func (x OrderedSlice[V]) Swap(i, j int) { x[i], x[j] = x[j], x[i] }
+type Elements[T constraints.Ordered, V Element[T]] []V
 
 // Person is an example of structure which you want to sort
 type Person struct {
@@ -38,14 +31,10 @@ type Person struct {
 	Age  int
 }
 
-// ByAge is slice of Person elements
-type ByAge []Person
+// Element - example of implementation Element() function for sorting of structures
+func (p Person) Element() int {
+	return p.Age
+}
 
-// Len returns a len of ByAge slice
-func (a ByAge) Len() int { return len(a) }
-
-// Swap swaps i and j elements
-func (a ByAge) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
-
-// Less compares two elements. If i-element less j-element function returns true.
-func (a ByAge) Less(i, j int) bool { return a[i].Age < a[j].Age }
+// Slice is a slice for sorting ordered elements
+type Slice[V constraints.Ordered] []V

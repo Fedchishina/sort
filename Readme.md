@@ -5,45 +5,71 @@ Sort data
 
 Library for sorting data
 
-### BubbleSort and InsertionSort
 You can sort any data using these algorithms.
-You need to implement `sort.Interface` in your data structure.
+In this library for help and as example we added `type Slice` (slice for sorting ordered elements) and `type Person` with implementation `Element` interface
 
-In this library for help and as example we added `type OrderedSlice` and `type ByAge []Person` with implementation `sort.Interface`
 
-Use function Bubble or Insertion from sort package:
-- first param is any structure where was implemented `sort.Interface`
-- second param should be `type Direction` (`sort.Asc` or `sort.Desc`)
+### BubbleSort
+#### ordered slice
+Use function `Bubble` for sorting slice with ordered elements:
+   - first param is a slice of constraints.Ordered elements (string, int, float64...)
+   - second param should be `type direction` (`sort.Asc` or `sort.Desc`)
 
-#### Example with ordered slice: 
+#### example with ordered slice: 
 ```
-data := sort.OrderedSlice[int]([]int{4, 5, 8, 7})
-sort.Bubble(data, sort.Asc)
-sort.Insertion(data, sort.Asc)
+sort.Bubble[int]([]int{4, 5, 8, 7}, sort.Asc)
 ```
 
-#### Example with slice of structures:
+#### slice of structures
+Use function `BubbleStruct` for sorting slice with of structures:
+   - first param is a slice of structure elements. This slice should implement `Element` interface
+   - second param should be `type direction` (`sort.Asc` or `sort.Desc`)
+#### example with slice of structures:
 ```
-people := []sort.Person{
-    {"Bob", 31},
+persons := []sort.Person{
     {"John", 42},
-    {"Michael", 17},
+    {"Bob", 31},
     {"Jenny", 26},
+    {"Michael", 17},
 }
+sort.BubbleStruct[int](persons, sort.Asc)
+```
 
-sort.Bubble(sort.ByAge(people), sort.Asc)
-sort.Insertion(sort.ByAge(people), sort.Asc)
+### InsertionSort
+#### ordered slice
+Use function `Insertion` for sorting slice with ordered elements:
+- first param is a slice of constraints.Ordered elements (string, int, float64...)
+- second param should be `type direction` (`sort.Asc` or `sort.Desc`)
+
+#### example with ordered slice:
+```
+sort.Insertion[int]([]int{4, 5, 8, 7}, sort.Asc)
+```
+
+#### slice of structures
+Use function `InsertionStruct` for sorting slice with of structures:
+- first param is a slice of structure elements. This slice should implement `Element` interface
+- second param should be `type direction` (`sort.Asc` or `sort.Desc`)
+#### example with slice of structures:
+```
+persons := []sort.Person{
+    {"John", 42},
+    {"Bob", 31},
+    {"Jenny", 26},
+    {"Michael", 17},
+}
+sort.InsertionStruct[int](persons, sort.Asc)
 ```
 
 ### MergeSort
-You can sort OrderedSlice data using this algorithm.
+You can sort Slice data using this algorithm.
 Use function Merge for sort package:
-- first param is array (`type OrderedSlice`).
-- second param should be `type Direction` (`sort.Asc` or `sort.Desc`)
+- first param is array (`type Slice`).
+- second param should be `type direction` (`sort.Asc` or `sort.Desc`)
 
 Example:
 ```
-data := sort.OrderedSlice[int]([]int{4, 5, 8, 7})
+data := sort.Slice[int]([]int{4, 5, 8, 7})
 result := sort.Merge(data, sort.Asc)
 fmt.Println("Merge sort: ", result)
 ```
