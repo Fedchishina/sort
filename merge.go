@@ -1,6 +1,10 @@
 package sort
 
-import "golang.org/x/exp/constraints"
+import (
+	_ "net/http/pprof"
+
+	"golang.org/x/exp/constraints"
+)
 
 // Merge sorts data using merge sort algorithm
 //   - first param is array (`type Slice`).
@@ -42,5 +46,9 @@ func Merge[V constraints.Ordered](data Slice[V], direction direction) Slice[V] {
 		fIndex++
 	}
 
-	return final
+	for k, _ := range data {
+		data[k] = final[k]
+	}
+
+	return data
 }

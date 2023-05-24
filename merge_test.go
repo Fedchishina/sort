@@ -42,8 +42,9 @@ func TestMerge(t *testing.T) {
 	}
 	for _, tt := range intTests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := Merge(tt.args.data, tt.args.direction); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Merge() = %v, want %v", got, tt.want)
+			Merge(tt.args.data, tt.args.direction)
+			if !reflect.DeepEqual(tt.args.data, tt.want) {
+				t.Errorf("Merge() = %v, want %v", tt.args.data, tt.want)
 			}
 		})
 	}
@@ -72,8 +73,9 @@ func TestMerge(t *testing.T) {
 	}
 	for _, tt := range stringTests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := Merge(tt.args.data, tt.args.direction); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Merge() = %v, want %v", got, tt.want)
+			Merge(tt.args.data, tt.args.direction)
+			if !reflect.DeepEqual(tt.args.data, tt.want) {
+				t.Errorf("Merge() = %v, want %v", tt.args.data, tt.want)
 			}
 		})
 	}
